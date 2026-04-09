@@ -1,7 +1,20 @@
-# Existing stuff
-add_library(pixinng src/main.cpp)  # make it a library instead of an executable
+cmake_minimum_required(VERSION 3.22)
 
-# Export targets
+project(pixinng LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Define library target
+add_library(pixinng src/main.cpp)
+
+# Link NNG
+find_package(nng REQUIRED)
+target_link_libraries(pixinng PRIVATE nng)
+target_include_directories(pixinng PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+# Install rules for export
 install(TARGETS pixinng
     EXPORT pixinngTargets
     ARCHIVE DESTINATION lib
@@ -11,7 +24,6 @@ install(TARGETS pixinng
 
 install(DIRECTORY include/ DESTINATION include)
 
-# Generate config file for find_package
 install(EXPORT pixinngTargets
     FILE pixinngTargets.cmake
     NAMESPACE pixinng::
