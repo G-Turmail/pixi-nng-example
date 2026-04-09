@@ -1,3 +1,9 @@
 #pragma once
 
-void pixinng_hello();
+#include <string>
+
+namespace pixinng {
+
+void hello_nng(const std::string& msg);
+
+} // namespace pixinng
