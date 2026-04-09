@@ -1,23 +1,25 @@
-[package]
-name = "pixi-nng-example"
-version = "0.1.0"
-description = "NNG-based C library"
-
 [workspace]
 authors = ["Gabriel Turmail <g.turmail@imagingengineeringllc.com>"]
 channels = ["conda-forge"]
 platforms = ["win-64"]
 preview = ["pixi-build"]
 
-[build]
-script = [
-    "cmake -S . -B build -G Ninja",
-    "cmake --build build",
-    "cmake --install build --prefix %PREFIX%"
-]
-
 [dependencies]
-ninja = ">=1.13.2,<2"
-cmake = ">=4.3.1,<5"
+pixi-nng-example = { path = "." }  # for local testing
+python = "*"                       # optional if you add bindings later
+
+[package]
+name = "pixi-nng-example"
+version = "0.1.0"
+
+[package.build]
+backend = { name = "pixi-build-cmake", version = "0.*" }
+
+[package.host-dependencies]
+cmake = ">=3.22"
+ninja = "*"
 nng = ">=1.11,<2"
-cxx-compiler = ">=1.11.0,<2"
+clang = "*"
+
+[package.build.config]
+extra-args = ["-DCMAKE_BUILD_TYPE=Release"]
