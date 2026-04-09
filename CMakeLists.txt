@@ -9,7 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Find NNG library
 find_package(nng REQUIRED)
 
-# Define library target
+# Define library target 
 add_library(pixinng src/main.cpp)
 
 # Link NNG
@@ -18,9 +18,9 @@ target_link_libraries(pixinng PRIVATE nng)
 # Use installed headers for PUBLIC include directories
 target_include_directories(pixinng
     PUBLIC 
-        $<INSTALL_INTERFACE:include>  # <- downstream consumers see this
+        $<INSTALL_INTERFACE:include>      # downstream consumers see this
     PRIVATE 
-        ${CMAKE_CURRENT_SOURCE_DIR}/src  # <- only for local build
+        ${CMAKE_CURRENT_SOURCE_DIR}/include  # local build sees the headers
 )
 
 # Install headers
