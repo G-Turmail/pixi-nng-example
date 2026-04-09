@@ -1,20 +1,20 @@
+[package]
+name = "pixi-nng-example"
+version = "0.1.0"
+description = "NNG-based C library"
+
 [workspace]
 authors = ["Gabriel Turmail <g.turmail@imagingengineeringllc.com>"]
 channels = ["conda-forge"]
-name = "pixi-nng-example"
 platforms = ["win-64"]
-version = "0.1.0"
+preview = ["pixi-build"]
 
-[tasks]
-configure = {
-    cmd = [
-        "cmake",
-        "-G", "Ninja",
-        "-S", ".",
-        "-B", ".build",
-    ]
-}
-build = { cmd = ["ninja", "-C", ".build"], depends-on = ["configure"] }
+[build]
+script = [
+    "cmake -S . -B build -G Ninja",
+    "cmake --build build",
+    "cmake --install build --prefix %PREFIX%"
+]
 
 [dependencies]
 ninja = ">=1.13.2,<2"

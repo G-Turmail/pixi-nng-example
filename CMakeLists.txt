@@ -7,8 +7,23 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(nng REQUIRED)
 
-# Add executable
-add_executable(main src/main.cpp)
+# ---- Library ----
+add_library(pixinng STATIC src/main.cpp)  # rename later if needed
 
-# Link NNG library
-target_link_libraries(main PRIVATE nng)
+target_include_directories(pixinng
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries(pixinng PUBLIC nng)
+
+# ---- Install ----
+install(TARGETS pixinng
+    EXPORT pixinngTargets
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+)
+
+install(DIRECTORY include/ DESTINATION include)
